@@ -1,0 +1,14 @@
+
+#!/usr/bin/env bash
+# bin/detect <build-dir>
+
+BUILD_DIR=$1
+
+for f in ${BUILD_DIR}/REQUIRE
+do
+  if [ ! -e ${f} ]; then
+    echo "no" && exit 1
+  fi
+done
+
+echo "Julia" && exit 0
