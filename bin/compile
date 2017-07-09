@@ -27,6 +27,7 @@ for dep in $deps; do
   depb=$(basename $dep)
   echo "        - $depb"
   curl -LO $dep
+  mkdir julia
   tar -xzf $depb -C julia --strip-components=1
   rm $depb
 done
