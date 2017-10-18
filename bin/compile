@@ -21,7 +21,7 @@ cd ${BUILD_DIR}
 echo -n "-----> Installing julia ...."
 
 
-deps="https://julialang-s3.julialang.org/bin/linux/x64/0.5/julia-0.5.2-linux-x86_64.tar.gz"
+deps="https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.0-linux-x86_64.tar.gz"
 
 for dep in $deps; do
   depb=$(basename $dep)
@@ -44,14 +44,6 @@ echo $PATH
 echo $LD_LIBRARY_PATH
 echo $(cmake -version)
 echo $(julia -v)
-
-# dep="https://github.com/JuliaLang/julia/releases/download/v0.3.7/julia-0.3.7_cb9bcae93a.tar.gz"
-# depb=$(basename $dep)
-# echo "        - $depb"
-# curl -LO $dep
-# tar -zxf $depb
-# cd julia
-# make
 
 echo " done"
 
@@ -90,7 +82,7 @@ while IFS='' read -r julia_dep || [[ -n "$julia_dep" ]]; do
             julia -e "using Blink;Blink.AtomShell.install()"
         fi
     fi
-  fi 
+  fi
 
 done < "REQUIRE"
 
