@@ -36,10 +36,12 @@ done
 set-env PATH '$HOME/.apt/usr/bin:$HOME/julia/bin:$PATH'
 set-env LIBRARY_PATH '$HOME/.apt/usr/lib/x86_64-linux-gnu:$HOME/julia/lib:$HOME/julia/lib/x86_64-linux-gnu:$LIBRARY_PATH'
 set-env LD_LIBRARY_PATH '$HOME/.apt/usr/lib/x86_64-linux-gnu:$HOME/julia/lib:$HOME/julia/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH'
+set-env JULIA_LOAD_PATH '$HOME'
 
 export LIBRARY_PATH=./.apt/usr/lib/x86_64-linux-gnu:./julia/lib:./julia/lib/x86_64-linux-gnu:$LIBRARY_PATH
 export LD_LIBRARY_PATH=./.apt/usr/lib/x86_64-linux-gnu:./julia/lib:./julia/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 export PATH=./.apt/usr/bin:./julia/bin:$PATH
+export JULIA_LOAD_PATH=./
 echo $PATH
 echo $LD_LIBRARY_PATH
 echo $(cmake -version)
