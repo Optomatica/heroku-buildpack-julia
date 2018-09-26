@@ -55,7 +55,7 @@ fi
 
 
 # these are not presistent in heroku
-julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\""
+julia --project=$(pwd) -e "Pkg.add(\"Pkg\"); using Pkg; pkg\"instantiate\";pkg\"precompile\""
 
 julia --project=$(pwd) app.jl
 cp -r ~/.julia ${BUILD_DIR}/.julia
