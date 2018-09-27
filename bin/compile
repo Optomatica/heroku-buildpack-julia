@@ -20,7 +20,7 @@ cd ${BUILD_DIR}
 
 echo -n "-----> Installing julia ...."
 
-deps="https://julialang-s3.julialang.org/bin/linux/x64/0.7/julia-0.7.0-linux-x86_64.tar.gz"
+deps="https://julialang-s3.julialang.org/bin/linux/x64/1.0/julia-1.0.0-linux-x86_64.tar.gz"
 
 for dep in $deps; do
   depb=$(basename $dep)
