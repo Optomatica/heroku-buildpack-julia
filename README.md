@@ -3,7 +3,9 @@ heroku-buildpack-julia
 
 This is a [Heroku buildpack](https://devcenter.heroku.com/articles/buildpacks) for [Julia](http://julialang.org) apps.
 
-Here is a sample morsel webserver that is using this buildpack. [Sample Morsel Webserver](https://github.com/amgad-naiem/morsel-on-heroku-test)
+In order to use this buildpack simply use a project using Julia 1.0 (containing `Project.toml` & `Manifest.toml`) and the buildpack will install all the project dependencies in build time.
 
-
-Note: if you're using python libraries in your server, you'll need to add `Pkg.build("PyCall")` in the begining of your app before the using libraries statement
+Make sure your main file is app.jl and have a Procfile as follow
+```
+web: julia --project=$(pwd) --sysimage-native-code=yes --compiled-modules=no app.jl $PORT
+```
