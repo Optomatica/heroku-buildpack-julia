@@ -20,8 +20,7 @@ cd ${BUILD_DIR}
 
 echo -n "-----> Installing julia ...."
 
-
-deps="https://julialang-s3.julialang.org/bin/linux/x64/0.5/julia-0.5.2-linux-x86_64.tar.gz"
+deps="https://julialang-s3.julialang.org/bin/linux/x64/1.0/julia-1.0.1-linux-x86_64.tar.gz"
 
 for dep in $deps; do
   depb=$(basename $dep)
@@ -36,22 +35,16 @@ done
 set-env PATH '$HOME/.apt/usr/bin:$HOME/julia/bin:$PATH'
 set-env LIBRARY_PATH '$HOME/.apt/usr/lib/x86_64-linux-gnu:$HOME/julia/lib:$HOME/julia/lib/x86_64-linux-gnu:$LIBRARY_PATH'
 set-env LD_LIBRARY_PATH '$HOME/.apt/usr/lib/x86_64-linux-gnu:$HOME/julia/lib:$HOME/julia/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH'
+set-env JULIA_LOAD_PATH '@:$HOME'
 
 export LIBRARY_PATH=./.apt/usr/lib/x86_64-linux-gnu:./julia/lib:./julia/lib/x86_64-linux-gnu:$LIBRARY_PATH
 export LD_LIBRARY_PATH=./.apt/usr/lib/x86_64-linux-gnu:./julia/lib:./julia/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 export PATH=./.apt/usr/bin:./julia/bin:$PATH
+export JULIA_LOAD_PATH="@:"
 echo $PATH
 echo $LD_LIBRARY_PATH
 echo $(cmake -version)
 echo $(julia -v)
-
-# dep="https://github.com/JuliaLang/julia/releases/download/v0.3.7/julia-0.3.7_cb9bcae93a.tar.gz"
-# depb=$(basename $dep)
-# echo "        - $depb"
-# curl -LO $dep
-# tar -zxf $depb
-# cd julia
-# make
 
 echo " done"
 
@@ -62,36 +55,8 @@ fi
 
 
 # these are not presistent in heroku
-julia -e "Pkg.update()"
-while IFS='' read -r julia_dep || [[ -n "$julia_dep" ]]; do
-  if [[ $julia_dep == https://github.com* ]]; then
-    echo 'in clone'
-        array=( $julia_dep )
-        if [[ ${#array[@]} > 1 ]]; then
-        julia -e "Pkg.clone(\"${array[0]}\")"
-        julia -e "Pkg.checkout(\"${array[1]}\",\"${array[2]}\")"
-        julia -e "using ${array[1]}"
-    else
-        julia -e "Pkg.clone(\"$julia_dep\")"
-    fi
-  else
-    array=( $julia_dep )
-    if [[ ${#array[@]} > 1 ]]; then
-        julia -e "Pkg.add(\"${array[0]}\")"
-        julia -e "Pkg.pin(\"${array[0]}\",v\"${array[1]}\")"
-        julia -e "using ${array[0]}"
-        if [[ "${array[0]}" == "Plotly" ]]; then
-            julia -e "using Blink;Blink.AtomShell.install()"
-        fi
-    else
-        julia -e "Pkg.add(\"$julia_dep\")"
-        julia -e "using $julia_dep"
-        if [[ "${array[0]}" == "Plotly" ]]; then
-            julia -e "using Blink;Blink.AtomShell.install()"
-        fi
-    fi
-  fi 
+julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\""
 
-done < "REQUIRE"
-
+export JULIA_LOAD_PATH="@:$HOME"
+julia --project=$(pwd) app.jl
 cp -r ~/.julia ${BUILD_DIR}/.julia
