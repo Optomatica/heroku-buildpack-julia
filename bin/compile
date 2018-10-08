@@ -57,6 +57,9 @@ fi
 # these are not presistent in heroku
 julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\""
 
+julia -e "using Pkg; pkg\"add PackageCompiler\""
+export JULIA_PROJECT="$(pwd)"
+julia -e "using Pkg; using PackageCompiler; compile_package(keys(Pkg.installed())..., force = true, reuse = false)"
 export JULIA_LOAD_PATH="@:$HOME"
 julia --project=$(pwd) app.jl
 cp -r ~/.julia ${BUILD_DIR}/.julia
