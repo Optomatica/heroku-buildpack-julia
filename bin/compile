@@ -36,6 +36,7 @@ set-env PATH '$HOME/.apt/usr/bin:$HOME/julia/bin:$PATH'
 set-env LIBRARY_PATH '$HOME/.apt/usr/lib/x86_64-linux-gnu:$HOME/julia/lib:$HOME/julia/lib/x86_64-linux-gnu:$LIBRARY_PATH'
 set-env LD_LIBRARY_PATH '$HOME/.apt/usr/lib/x86_64-linux-gnu:$HOME/julia/lib:$HOME/julia/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH'
 set-env JULIA_LOAD_PATH '@:$HOME'
+set-env JULIA_DEPOT_PATH '/app/juliaDepot'
 
 export LIBRARY_PATH=./.apt/usr/lib/x86_64-linux-gnu:./julia/lib:./julia/lib/x86_64-linux-gnu:$LIBRARY_PATH
 export LD_LIBRARY_PATH=./.apt/usr/lib/x86_64-linux-gnu:./julia/lib:./julia/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
@@ -54,13 +55,10 @@ if [ "${PIPESTATUS[*]}" != "0" ]; then
 fi
 
 
+export JULIA_DEPOT_PATH='/app/juliaDepot'
 # these are not presistent in heroku
 julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\""
 
-julia -e "using Pkg; pkg\"add PackageCompiler\""
-export JULIA_PROJECT="$(pwd)"
-precompile=$(<PRECOMPILE)
-julia -e "using Pkg; using PackageCompiler; compile_package($precompile, force = true, reuse = false)"
 export JULIA_LOAD_PATH="@:$HOME"
 julia --project=$(pwd) app.jl
-cp -r ~/.julia ${BUILD_DIR}/.julia
+cp -r /app/juliaDepot ${BUILD_DIR}/juliaDepot
