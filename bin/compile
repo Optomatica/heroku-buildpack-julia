@@ -45,6 +45,7 @@ export JULIA_LOAD_PATH="@:"
 echo $PATH
 echo $LD_LIBRARY_PATH
 echo $(cmake -version)
+export JULIA_DEPOT_PATH=$BUILD_DIR/juliaDepot
 echo $(julia -v)
 
 echo " done"
@@ -54,11 +55,8 @@ if [ "${PIPESTATUS[*]}" != "0" ]; then
   exit 1
 fi
 
-
-export JULIA_DEPOT_PATH='/app/juliaDepot'
 # these are not presistent in heroku
 julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\""
 
 export JULIA_LOAD_PATH="@:$HOME"
 julia --project=$(pwd) app.jl
-cp -r /app/juliaDepot ${BUILD_DIR}/juliaDepot
