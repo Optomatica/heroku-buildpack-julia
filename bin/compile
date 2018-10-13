@@ -45,7 +45,7 @@ export JULIA_LOAD_PATH="@:"
 echo $PATH
 echo $LD_LIBRARY_PATH
 echo $(cmake -version)
-export JULIA_DEPOT_PATH=$BUILD_DIR/juliaDepot
+export JULIA_DEPOT_PATH='/app/juliaDepot'
 echo $(julia -v)
 
 echo " done"
@@ -60,3 +60,4 @@ julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\""
 
 export JULIA_LOAD_PATH="@:$HOME"
 julia --project=$(pwd) app.jl
+cp -r /app/juliaDepot ${BUILD_DIR}/juliaDepot
