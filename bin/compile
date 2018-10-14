@@ -55,7 +55,7 @@ fi
 
 
 # these are not presistent in heroku
-mkdir ~/.julia/config
+mkdir -p ~/.julia/config
 set +H
 julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\";
   io = open(\"~/.julia/config/startup.jl\", \"w\");
