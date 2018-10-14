@@ -63,8 +63,13 @@ julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\";
   for package in packages
     pkgid = Base.identify_package(package[1]);
     Base.require(pkgid);
-    buildid = Base.module_build_id(Base.root_module(pkgid));
-    println(io, \"\"\"Base.push!(Base._concrete_dependencies, Base.PkgId(Base.UUID(\"\$(pkgid.uuid)\"), \"\$(pkgid.name)\") => \$(buildid))\"\"\");
+  end
+  for packagemodule in Base.loaded_modules
+    pkgid = packagemodule[1];
+    buildid = Base.module_build_id(packagemodule[2]);
+    if (pkgid.uuid != nothing)
+      println(io, \"\"\"Base.push!(Base._concrete_dependencies, Base.PkgId(Base.UUID(\"\$(pkgid.uuid)\"), \"\$(pkgid.name)\") => \$(buildid))\"\"\");
+    end
   end
   close(io)"
 
