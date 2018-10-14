@@ -58,7 +58,7 @@ fi
 mkdir -p ~/.julia/config
 set +H
 julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\";
-  io = open(\"~/.julia/config/startup.jl\", \"w\");
+  io = open(\"$HOME/.julia/config/startup.jl\", \"w\");
   packages = Pkg.installed();
   for package in packages
     pkgid = Base.identify_package(package[1]);
