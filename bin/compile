@@ -57,13 +57,15 @@ fi
 # these are not presistent in heroku
 mkdir -p ~/.julia/config
 set +H
-julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\";
+julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\";"
+julia --project=$(pwd) -e "using Pkg;
   io = open(\"$HOME/.julia/config/startup.jl\", \"w\");
   packages = Pkg.installed();
   for package in packages
     pkgid = Base.identify_package(package[1]);
     Base.require(pkgid);
   end
+  include(\"app.jl\");
   for packagemodule in Base.loaded_modules
     pkgid = packagemodule[1];
     buildid = Base.module_build_id(packagemodule[2]);
@@ -72,6 +74,4 @@ julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\";
   end
   close(io)"
 
-export JULIA_LOAD_PATH="@:$HOME"
-julia --project=$(pwd) app.jl
 cp -r ~/.julia ${BUILD_DIR}/.julia
