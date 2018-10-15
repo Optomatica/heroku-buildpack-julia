@@ -7,7 +7,7 @@ In order to use this buildpack simply use a project using Julia 1.0 (containing 
 
 Make sure you have a Procfile as follow 
 ```
-web: julia --project=$(pwd) --sysimage-native-code=yes --compiled-modules=no app.jl $PORT
+web: julia --project app.jl $PORT
 ```
 
 You can also replace `app.jl` with your main app file name
