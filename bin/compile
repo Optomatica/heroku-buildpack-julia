@@ -4,8 +4,6 @@
 # fail fast
 set -e
 
-mkdir -p .profile.d
-
 PROFILE_PATH=".profile.d/julia.sh"
 
 set-env() {
@@ -19,6 +17,8 @@ CACHE_DIR=$2
 BP_DIR=`cd $(dirname $0); cd ..; pwd`
 
 cd ${BUILD_DIR}
+
+mkdir -p .profile.d
 
 echo -n "-----> Installing julia ...."
 
