@@ -2,13 +2,10 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
-BUILD_DIR=$1
-
-for f in ${BUILD_DIR}/Project.toml
-do
-  if [ ! -e ${f} ]; then
-    echo "no" && exit 1
-  fi
-done
-
-echo "Julia" && exit 0
+if [ -f $1/Project.toml ]; then
+  echo "Julia"
+  exit 0
+else
+  echo "no Project.toml file"
+  exit 1
+fi
