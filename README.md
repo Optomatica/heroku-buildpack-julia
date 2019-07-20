@@ -10,4 +10,4 @@ Make sure you have a Procfile as follow
 web: julia --project app.jl $PORT
 ```
 
-You can also replace `app.jl` with your main app file name
+You can also replace `app.jl` with your main app file name. This is a [sample](https://github.com/Optomatica/heroku-julia-sample) that uses this buildpack with Mux.jl.
