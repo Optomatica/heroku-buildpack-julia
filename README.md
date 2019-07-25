@@ -7,7 +7,7 @@ In order to use this buildpack simply use a project using Julia 1.0 (containing 
 
 Make sure you have a Procfile as follow 
 ```
-web: julia --project app.jl $PORT
+web: julia --project src/app.jl $PORT
 ```
 
 You can also replace `app.jl` with your main app file name. This is a [sample](https://github.com/Optomatica/heroku-julia-sample) that uses this buildpack with Mux.jl.
