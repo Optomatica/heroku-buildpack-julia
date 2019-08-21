@@ -22,7 +22,7 @@ mkdir -p .profile.d
 
 echo -n "-----> Installing julia ...."
 
-deps="https://julialang-s3.julialang.org/bin/linux/x64/1.1/julia-1.1.0-linux-x86_64.tar.gz"
+deps="https://julialang-s3.julialang.org/bin/linux/x64/1.2/julia-1.2.0-linux-x86_64.tar.gz"
 
 for dep in $deps; do
   depb=$(basename $dep)
