@@ -20,13 +20,22 @@ cd ${BUILD_DIR}
 
 mkdir -p .profile.d
 
-echo -n "-----> Installing julia ...."
+DEFAULT_JULIA_VERSION=1.3.0
+JULIA_VERSION="$DEFAULT_JULIA_VERSION"
+if [[ -f Project.toml ]]; then
+  curl -Lo /tmp/faq https://github.com/jzelinskie/faq/releases/download/0.0.6/faq-linux-amd64
+  chmod +x /tmp/faq
 
-# TODO: Pull this from Project.toml
-JULIA_VERSION=${JULIA_VERSION:=1.3.0}
+  JULIA_VERSION="$(/tmp/faq -Mr '.compat.julia' Project.toml -o json)"
+  [[ "$JULIA_VERSION" == "null" ]] JULIA_VERSION="$DEFAULT_JULIA_VERSION"
+fi
+
 JULIA_MAJOR_VERSION="$(echo "$JULIA_VERSION" | awk '{split($0,a,"."); print a[1]}')"
 JULIA_MINOR_VERSION="$(echo "$JULIA_VERSION" | awk '{split($0,a,"."); print a[2]}')"
+JULIA_PATCH_VERSION="$(echo "$JULIA_VERSION" | awk '{split($0,a,"."); print a[3]}')"
+[[ -z "$JULIA_PATCH_VERSION" ]] && JULIA_VERSION="${JULIA_VERSION}.0"
 
+echo -n "-----> Installing julia $JULIA_VERSION ...."
 deps="https://julialang-s3.julialang.org/bin/linux/x64/${JULIA_MAJOR_VERSION}.${JULIA_MINOR_VERSION}/julia-${JULIA_VERSION}-linux-x86_64.tar.gz"
 
 for dep in $deps; do
