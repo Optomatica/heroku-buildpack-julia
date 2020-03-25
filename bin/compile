@@ -14,8 +14,6 @@ set-env() {
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-BP_DIR=`cd $(dirname $0); cd ..; pwd`
-
 cd ${BUILD_DIR}
 
 mkdir -p .profile.d
