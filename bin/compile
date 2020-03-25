@@ -7,7 +7,7 @@ set -e
 PROFILE_PATH=".profile.d/julia.sh"
 
 set-env() {
-  echo "export $1=$2" >> $PROFILE_PATH
+  echo "export $1=$2" >>$PROFILE_PATH
 }
 
 # parse args
@@ -45,7 +45,6 @@ for dep in $deps; do
   rm $depb
 done
 
-
 set-env PATH '$HOME/.apt/usr/bin:$HOME/julia/bin:$PATH'
 set-env LIBRARY_PATH '$HOME/.apt/usr/lib/x86_64-linux-gnu:$HOME/julia/lib:$HOME/julia/lib/x86_64-linux-gnu:$LIBRARY_PATH'
 set-env LD_LIBRARY_PATH '$HOME/.apt/usr/lib/x86_64-linux-gnu:$HOME/julia/lib:$HOME/julia/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH'
@@ -66,7 +65,6 @@ if [ "${PIPESTATUS[*]}" != "0" ]; then
   echo " !     Failed to install ${JULIA_DIST}"
   exit 1
 fi
-
 
 # these are not presistent in heroku
 mkdir -p ~/.julia/config
