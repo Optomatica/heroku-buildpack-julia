@@ -18,7 +18,7 @@ cd ${BUILD_DIR}
 
 mkdir -p .profile.d
 
-DEFAULT_JULIA_VERSION=1.3.0
+DEFAULT_JULIA_VERSION=1.4.0
 JULIA_VERSION="$DEFAULT_JULIA_VERSION"
 if [[ -f Project.toml ]]; then
   curl -Lo /tmp/faq https://github.com/jzelinskie/faq/releases/download/0.0.6/faq-linux-amd64
@@ -71,9 +71,10 @@ mkdir -p ~/.julia/config
 set +H
 julia --project=$(pwd) -e "using Pkg; pkg\"instantiate\";pkg\"precompile\";
   io = open(\"$HOME/.julia/config/startup.jl\", \"w\");
-  packages = Pkg.installed();
-  for package in packages
-    pkgid = Base.identify_package(package[1]);
+  deps = Pkg.dependencies()
+  for (uuid, dep) in deps
+    dep.is_direct_dep || continue
+    pkgid = Base.identify_package(dep.name);
     Base.require(pkgid);
   end
   for packagemodule in Base.loaded_modules
