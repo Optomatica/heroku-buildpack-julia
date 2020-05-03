@@ -18,7 +18,7 @@ cd ${BUILD_DIR}
 
 mkdir -p .profile.d
 
-DEFAULT_JULIA_VERSION=1.4.0
+DEFAULT_JULIA_VERSION=1.4.1
 JULIA_VERSION="$DEFAULT_JULIA_VERSION"
 if [[ -f Project.toml ]]; then
   curl -Lo /tmp/faq https://github.com/jzelinskie/faq/releases/download/0.0.6/faq-linux-amd64
