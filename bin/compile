@@ -18,14 +18,11 @@ cd ${BUILD_DIR}
 
 mkdir -p .profile.d
 
-DEFAULT_JULIA_VERSION=1.4.1
+DEFAULT_JULIA_VERSION=1.4.2
 JULIA_VERSION="$DEFAULT_JULIA_VERSION"
 if [[ -f Project.toml ]]; then
-  curl -Lo /tmp/faq https://github.com/jzelinskie/faq/releases/download/0.0.6/faq-linux-amd64
-  chmod +x /tmp/faq
-
-  JULIA_VERSION="$(/tmp/faq -Mr '.compat.julia' Project.toml -o json)"
-  [[ "$JULIA_VERSION" == "null" ]] && JULIA_VERSION="$DEFAULT_JULIA_VERSION"
+  JULIA_VERSION="$(sed -rn 's/^julia\s*=\s*"(.*)"/\1/p' Project.toml)"
+  [[ "$JULIA_VERSION" == "" ]] && JULIA_VERSION="$DEFAULT_JULIA_VERSION"
 fi
 
 JULIA_MAJOR_VERSION="$(echo "$JULIA_VERSION" | awk '{split($0,a,"."); print a[1]}')"
