@@ -15,7 +15,7 @@ You can also specify Julia version you want to use in [`Project.toml`](https://j
 
 To run the server for your project you can use something like
 ```
-web: julia --project 'using Foo; Foo.serve($PORT)'
+web: julia --project -e 'using Foo; Foo.serve($PORT)'
 ```
 where `Foo` is the name of your project and `serve` is a method which receives a port as a Number.
 Note that it it important for your app to receive the port number correctly and quickly bind to it, so that your app can be deployed.
