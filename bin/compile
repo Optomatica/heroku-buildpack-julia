@@ -18,7 +18,7 @@ cd ${BUILD_DIR}
 
 mkdir -p .profile.d
 
-DEFAULT_JULIA_VERSION=1.6.2
+DEFAULT_JULIA_VERSION=1.7.1
 JULIA_VERSION="$DEFAULT_JULIA_VERSION"
 if [[ -f Project.toml ]]; then
   JULIA_VERSION="$(sed -rn 's/^julia\s*=\s*"(.*)"/\1/p' Project.toml)"
